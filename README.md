@@ -188,7 +188,7 @@ Para validar las gramáticas definidas y experimentar con árboles de análisis,
 
 Además, habrá un cuarto script llamado test_suite.py que se encargará de ejecutar pruebas automáticas sobre la gramática final G₂, para verificar en cada caso si la oración es aceptada (genera exactamente 1 árbol) o rechazada (genera 0 árboles).
 
-**1. Script hausa_grammar_ambiguous.py**
+# **1. Script hausa_grammar_ambiguous.py**
 
 Este archivo carga la gramática G₀ (ambigua y recursiva a la izquierda) y muestra cuántos árboles produce para cada oración de prueba.
 ```
@@ -251,7 +251,7 @@ Resultado esperado:
 - Para "zomo ganowa yara" → # de árboles generados: 1.
 
 
-**2. Script hausa_grammar_unambiguous.py**
+# **2. Script hausa_grammar_unambiguous.py**
 
 A continuación se define la gramática G₁ (sin ambigüedad en la coordinación, pero aún con recursividad en NP_Aux). Este script muestra que la misma oración ambigua en G₀, al parsearse con G₁, sólo produce 1 árbol.
 ```
@@ -308,7 +308,7 @@ Resultado esperado:
 - Las demás oraciones también generan 1 árbol.
 
 
-**3. Script hausa_grammar_no_left_rec.py**
+# **3. Script hausa_grammar_no_left_rec.py**
 
 Para cerrar la implementación, presentamos G₂ (sin ambigüedad ni recursividad izquierda, completamente LL(1)). Aquí se introduce el no terminal intermedio VP_Tail para el sintagma verbal.
 ```
