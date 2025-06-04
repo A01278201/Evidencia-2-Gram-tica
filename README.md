@@ -251,6 +251,63 @@ Resultado esperado:
 - Para "zomo ganowa yara" → # de árboles generados: 1.
 
 
+**2. Script hausa_grammar_unambiguous.py**
+
+A continuación se define la gramática G₁ (sin ambigüedad en la coordinación, pero aún con recursividad en NP_Aux). Este script muestra que la misma oración ambigua en G₀, al parsearse con G₁, sólo produce 1 árbol.
+```
+# hasua_grammar_unambiguous.py
+
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+
+# Definición de la gramática G₁ (sin ambigüedad, NP_Aux → 'da' N NP_Aux | ε)
+grammar_unambiguous = CFG.fromstring(r"""
+  S       -> NP VP
+  NP      -> N NP_Aux
+  NP_Aux  -> 'da' N NP_Aux
+  NP_Aux  ->
+  VP      -> V NP
+  N       -> 'mutum' | 'yara' | 'zomo' | 'kare'
+  V       -> 'suna'  | 'hauji' | 'ganowa'
+""")
+
+parser_unambiguous = ChartParser(grammar_unambiguous)
+
+# Mismas oraciones para comprobar ambigüedad
+test_sentences = [
+    "mutum da zomo da kare ganowa yara".split(),  # Ahora debería producir 1 único árbol
+    "mutum da yara suna".split(),
+    "zomo ganowa yara".split()
+]
+
+print("=== Prueba con gramática NO AMBIGUA (G₁) ===\n")
+
+for tokens in test_sentences:
+    sentence = " ".join(tokens)
+    print(f"Oración: \"{sentence}\"")
+    trees = list(parser_unambiguous.parse(tokens))
+    print(f"  → # de árboles generados: {len(trees)}")
+    for tree in trees:
+        tree.pretty_print()
+    print()
+```
+
+Diferencia clave
+- La regla NP → NP 'da' NP (ambigua) se ha reemplazado por
+```
+NP      → N NP_Aux
+NP_Aux  → 'da' N NP_Aux
+NP_Aux  → ε
+```
+lo que fuerza la asociación hacia la derecha y elimina toda ambigüedad de agrupación.
+
+Resultado esperado:
+- "mutum da zomo da kare ganowa yara" → # de árboles generados: 1 (único árbol).
+
+- Las demás oraciones también generan 1 árbol.
+
+
 
 
 
