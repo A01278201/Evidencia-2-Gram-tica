@@ -109,6 +109,7 @@ V      → 'suna'   | 'hauji'| 'ganowa'
 - NP_Aux → 'da' N NP_Aux | ε
     - Si hay un “da N” adicional, lo consume y vuelve a llamar a sí mismo (asociación derecha).
     - Si no, produce ε (termina la coordinación).
+
 Con estas reglas, por ejemplo, para la cadena: mutum da zomo da kare ganowa yara
 
 
