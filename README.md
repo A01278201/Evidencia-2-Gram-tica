@@ -11,8 +11,8 @@ En este proyecto modelamos un subconjunto del hausa: oraciones declarativas simp
 
 El objetivo es reconocer oraciones como:
 
-´“mutum da zomo ganowa yara”
+´´´“mutum da zomo ganowa yara”
 “zomo suna”
-“mutum da kare da yara hauji” ´
+“mutum da kare da yara hauji” ´´´
 
 Este subconjunto captura la sintaxis esencial del hausa—sin cláusulas subordinadas, sin morfología verbal compleja—lo cual lo hace ideal para demostrar análisis LL(1) y construir una gramática libre de contexto que sirva de base a un parser predictivo.
