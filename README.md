@@ -458,26 +458,34 @@ Explicación de la lógica:
 
 Cómo ejecutar los scripts
 1. Asegúrate de tener instalados Python 3 y el paquete NLTK:
-   ```
+```
    pip install nltk
 ```
 2. Abre una terminal y navega hasta la carpeta donde tengas los archivos.
 3. Ejecuta cada uno de los siguientes comandos en orden:
+   
 ```
 python hasua_grammar_ambiguous.py
 ```
+
 - Verás que para la oración “mutum da zomo da kare ganowa yara” se generan 2 árboles (ambigüedad).
+
 ```
 python hasua_grammar_unambiguous.py
 ```
+
 - Ahora la misma oración produce 1 único árbol (ya no hay ambigüedad).
+  
 ```
 python hasua_grammar_no_left_rec.py
 ```
+
 - Con la gramática final LL(1), también verás precisamente 1 árbol, confirmando la eliminación de left recursion.
+  
 ```
 python test_suite.py
 ```
+
 - Se listan todas las oraciones válidas con “OK” (1 árbol) y todas las inválidas con “OK (rechazada)”.
 
 Si todo está correcto, habrás comprobado empíricamente que:
