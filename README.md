@@ -233,13 +233,13 @@ for tokens in test_sentences:
 ```
 Cómo funciona
 
-1-Definimos grammar_ambiguous usando la sintaxis CFG.fromstring de NLTK, copiando exactamente las producciones de G₀.
+ 1- Definimos grammar_ambiguous usando la sintaxis CFG.fromstring de NLTK, copiando exactamente las producciones de G₀.
 
-2-Creamos un ChartParser con esa gramática.
+ 2- Creamos un ChartParser con esa gramática.
 
-3-Para cada oración en test_sentences (ya tokenizada con .split()), generamos la lista de árboles con parser_ambiguous.parse(tokens).
+ 3- Para cada oración en test_sentences (ya tokenizada con .split()), generamos la lista de árboles con parser_ambiguous.parse(tokens).
 
-4-Imprimimos cuántos árboles se generaron y, si hay alguno, lo mostramos con pretty_print().
+ 4- Imprimimos cuántos árboles se generaron y, si hay alguno, lo mostramos con pretty_print().
 
 
 Resultado esperado:
