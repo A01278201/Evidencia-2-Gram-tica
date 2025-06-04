@@ -42,5 +42,6 @@ V   → 'suna'  | 'hauji' | 'ganowa'
 
 - Los símbolos terminales N y V abarcan los sustantivos y verbos básicos del subconjunto de hausa.
 
-**Problema: Ambigüedad**
+**Problema: Ambigüedad**.
+
 Esta gramática es ambigua porque, para oraciones coordinadas con más de dos nombres, no queda claro cómo agrupar la serie de “da”s. Por ejemplo:
