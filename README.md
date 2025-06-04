@@ -308,7 +308,61 @@ Resultado esperado:
 - Las demás oraciones también generan 1 árbol.
 
 
+**3. Script hausa_grammar_no_left_rec.py**
 
+Para cerrar la implementación, presentamos G₂ (sin ambigüedad ni recursividad izquierda, completamente LL(1)). Aquí se introduce el no terminal intermedio VP_Tail para el sintagma verbal.
+```
+# hasua_grammar_no_left_rec.py
+
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+
+# Definición de la gramática G₂ (sin recursividad izquierda, LL(1) friendly)
+grammar_no_left_rec = CFG.fromstring(r"""
+  S         -> NP VP
+
+  NP        -> N NP_Aux
+  NP_Aux    -> 'da' N NP_Aux
+  NP_Aux    ->
+
+  VP        -> V VP_Tail
+  VP_Tail   -> NP
+  VP_Tail   ->
+
+  N         -> 'mutum'  | 'yara' | 'zomo' | 'kare'
+  V         -> 'suna'   | 'hauji'| 'ganowa'
+""")
+
+parser_no_left_rec = ChartParser(grammar_no_left_rec)
+
+# Oraciones de prueba (igual que antes)
+test_sentences = [
+    "mutum da zomo da kare ganowa yara".split(),
+    "mutum da yara suna".split(),
+    "zomo ganowa yara".split()
+]
+
+print("=== Prueba con gramática SIN LEFT-RECURSION (G₂) ===\n")
+
+for tokens in test_sentences:
+    sentence = " ".join(tokens)
+    print(f"Oración: \"{sentence}\"")
+    trees = list(parser_no_left_rec.parse(tokens))
+    print(f"  → # de árboles generados: {len(trees)}")
+    for tree in trees:
+        tree.pretty_print()
+    print()
+```
+Notas
+
+- Ahora VP → V VP_Tail y VP_Tail → NP | ε evitan cualquier ambigüedad de “¿VP → V NP” o “VP → V?”. Con VP_Tail el parser consulta el siguiente token para decidir entre expandir NP o terminar el VP con ε.
+
+- Todas las producciones están libres de recursividad izquierda (los lados derechos empiezan con terminales).
+
+Resultado esperado
+
+- Cada oración de prueba genera exactamente 1 árbol. Ya no hay ambigüedad ni problema de recursividad izquierda.
 
 
 
