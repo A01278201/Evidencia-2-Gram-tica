@@ -171,12 +171,25 @@ V        → 'suna'   | 'hauji'| 'ganowa'
 - VP_Tail maneja el posible sintagma nominal que viene después del verbo, o bien termina el VP con ε.
   
 Con esta forma:
+1. No hay recursividad izquierda en ningún no terminal (todas las producciones que llaman a un hijo no terminal lo hacen por la derecha, precedido de un terminal).
+2. No hay ambigüedad: la coordinación siempre se asocia a la derecha y cada regla LL(1) tiene conjuntos FIRST/FOLLOW disjuntos.
+3. Es directamente analizables con un parser predictivo (LL(1)).
 
-1-     No hay recursividad izquierda en ningún no terminal (todas las producciones que llaman a un hijo no terminal lo hacen por la derecha, precedido de un terminal).
 
-2-     No hay ambigüedad: la coordinación siempre se asocia a la derecha y cada regla LL(1) tiene conjuntos FIRST/FOLLOW disjuntos.
+# Implementación
 
-3-     Es directamente analizables con un parser predictivo (LL(1)).
+Para validar las gramáticas definidas y experimentar con árboles de análisis, utilizaremos Python junto con la biblioteca NLTK (Natural Language Toolkit). A continuación se muestran tres scripts que corresponden a cada una de las gramáticas vistas:
+
+- G₀ (ambigua / left‐recursive) → hausa_grammar_ambiguous.py
+
+- G₁ (sin ambigüedad, pero con recursividad derecha en NP_Aux) → hausa_grammar_unambiguous.py
+
+- G₂ (sin ambigüedad ni recursividad izquierda, compatible LL(1)) → hausa_grammar_no_left_rec.py
+
+Además, habrá un cuarto script llamado test_suite.py que se encargará de ejecutar pruebas automáticas sobre la gramática final G₂, para verificar en cada caso si la oración es aceptada (genera exactamente 1 árbol) o rechazada (genera 0 árboles).
+
+1. Requerimientos previos
+
 
 
 
