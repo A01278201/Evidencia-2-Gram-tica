@@ -169,13 +169,14 @@ V        → 'suna'   | 'hauji'| 'ganowa'
 - NP_Aux maneja cero o más coordinaciones “da N”.
 
 - VP_Tail maneja el posible sintagma nominal que viene después del verbo, o bien termina el VP con ε.
+  
 Con esta forma:
 
-1- No hay recursividad izquierda en ningún no terminal (todas las producciones que llaman a un hijo no terminal lo hacen por la derecha, precedido de un terminal).
+1-     No hay recursividad izquierda en ningún no terminal (todas las producciones que llaman a un hijo no terminal lo hacen por la derecha, precedido de un terminal).
 
-2- No hay ambigüedad: la coordinación siempre se asocia a la derecha y cada regla LL(1) tiene conjuntos FIRST/FOLLOW disjuntos.
+2-     No hay ambigüedad: la coordinación siempre se asocia a la derecha y cada regla LL(1) tiene conjuntos FIRST/FOLLOW disjuntos.
 
-3- Es directamente analizables con un parser predictivo (LL(1)).
+3-     Es directamente analizables con un parser predictivo (LL(1)).
 
 
 
