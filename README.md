@@ -242,7 +242,13 @@ Cómo funciona
 4-Imprimimos cuántos árboles se generaron y, si hay alguno, lo mostramos con pretty_print().
 
 
+Resultado esperado:
 
+- Para "mutum da zomo da kare ganowa yara" → # de árboles generados: 2 (dos agrupaciones posibles).
+
+- Para "mutum da yara suna" → # de árboles generados: 1.
+
+- Para "zomo ganowa yara" → # de árboles generados: 1.
 
 
 
