@@ -85,9 +85,24 @@ NP → NP 'da' NP
 
 **Gramática sin ambigüedad (G₁)**
 
-Para resolver el problema de ambigüedad en la producción original, reescribimos la regla de coordinación forzando la asociación hacia la derecha. De este modo, toda secuencia de nombres unidos por “da” se agrupará siempre como
+Para resolver el problema de ambigüedad en la producción original, reescribimos la regla de coordinación forzando la asociación hacia la derecha. De este modo, toda secuencia de nombres unidos por “da” se agrupará siempre como:
 “N da (N da (N da …))”
 y no como “((N da N) da N)”.
+
+La gramática resultante G₁, que ya no genera más de un árbol para la misma cadena coordinada, es:
+```
+S      → NP VP
+NP     → N NP_Aux
+NP_Aux → 'da' N NP_Aux
+NP_Aux → ε
+
+VP     → V NP
+
+N      → 'mutum'  | 'yara' | 'zomo' | 'kare'
+V      → 'suna'   | 'hauji'| 'ganowa'
+```
+
+
 
 
 
