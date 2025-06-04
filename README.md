@@ -45,3 +45,27 @@ V   → 'suna'  | 'hauji' | 'ganowa'
 **Problema: Ambigüedad**.
 
 Esta gramática es ambigua porque, para oraciones coordinadas con más de dos nombres, no queda claro cómo agrupar la serie de “da”s. Por ejemplo:
+
+*“mutum da zomo da kare ganowa yara”*
+
+Primera posible agrupación (asociación izquierda):
+```
+NP → NP 'da' NP
+    ├── NP → NP 'da' NP 
+    │     ├── NP → N (“mutum”)
+    │     └── ‘da’ N (“zomo”)
+    └── ‘da’ N (“kare”)
+VP → V NP (“ganowa” “yara”)
+```
+Interpreta “(mutum da zomo) da kare”.
+
+Segunda posible agrupación (asociación derecha):
+```
+NP → NP 'da' NP
+    ├── NP → N (“mutum”)
+    └── ‘da’ NP
+         ├── NP → N (“zomo”)
+         └── ‘da’ N (“kare”)
+VP → V NP (“ganowa” “yara”)
+```
+Interpreta “mutum da (zomo da kare)”.
