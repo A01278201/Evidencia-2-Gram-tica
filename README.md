@@ -31,3 +31,13 @@ VP  → V NP
 N   → 'mutum' | 'yara' | 'zomo' | 'kare'
 V   → 'suna'  | 'hauji' | 'ganowa'
 ```
+
+- S (oración) se descompone en un sintagma nominal (NP) seguido de un sintagma verbal (VP).
+
+- NP → NP 'da' NP introduce coordinación de sustantivos (por ejemplo, “mutum da zomo” = “hombre y conejo”), pero es recursiva a la izquierda.
+
+- NP → N permite que un NP sea simplemente un nombre aislado.
+
+- VP → V NP exige un verbo seguido de un objeto (NP).
+
+- Los símbolos terminales N y V abarcan los sustantivos y verbos básicos del subconjunto de hausa.
