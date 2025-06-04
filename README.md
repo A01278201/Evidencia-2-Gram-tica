@@ -71,3 +71,14 @@ NP → NP 'da' NP
 VP → V NP (“ganowa” “yara”)
 ```
 Interpreta “mutum da (zomo da kare)”.
+
+Como se ve, hay dos árboles de análisis distintos para la misma cadena “mutum da zomo da kare ganowa yara”. Esto es inaceptable si queremos aplicar un análisis LL(1), porque el parser no sabrá cómo decidir de forma determinista —sin backtracking— cuál de las dos asociaciones (izquierda o derecha) usar.
+
+Además, la producción recursiva a la izquierda impide directamente el análisis LL(1), ya que un parser predictivo no puede manejar recursividad izquierda sin reescritura.
+
+```
+NP → NP 'da' NP
+```
+
+
+
