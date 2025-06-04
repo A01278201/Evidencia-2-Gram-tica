@@ -8,3 +8,11 @@ En este proyecto modelamos un subconjunto del hausa: oraciones declarativas simp
 - Sintagmas verbales (VP), con un verbo elemental (por ejemplo, suna = “corren”, hauji = “saltan”, ganowa = “encontró”) seguido de un NP que funciona como objeto.
 
 - Coordinaciones (NP_Aux), usando “da” para unir múltiples sustantivos en un mismo sintagma nominal, siempre con asociación forzada hacia la derecha (p. ej. “mutum da zomo da kare”).
+
+El objetivo es reconocer oraciones como:
+
+“mutum da zomo ganowa yara”
+“zomo suna”
+“mutum da kare da yara hauji”
+
+Este subconjunto captura la sintaxis esencial del hausa—sin cláusulas subordinadas, sin morfología verbal compleja—lo cual lo hace ideal para demostrar análisis LL(1) y construir una gramática libre de contexto que sirva de base a un parser predictivo.
