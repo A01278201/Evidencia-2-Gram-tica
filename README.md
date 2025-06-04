@@ -42,13 +42,15 @@ V   → 'suna'  | 'hauji' | 'ganowa'
 
 - Los símbolos terminales N y V abarcan los sustantivos y verbos básicos del subconjunto de hausa.
 
+
 **Problema: Ambigüedad**.
 
 Esta gramática es ambigua porque, para oraciones coordinadas con más de dos nombres, no queda claro cómo agrupar la serie de “da”s. Por ejemplo:
 
+
 *“mutum da zomo da kare ganowa yara”*
 
-Primera posible agrupación (asociación izquierda):
+**Primera posible agrupación (asociación izquierda):**
 ```
 NP → NP 'da' NP
     ├── NP → NP 'da' NP 
@@ -59,7 +61,7 @@ VP → V NP (“ganowa” “yara”)
 ```
 Interpreta “(mutum da zomo) da kare”.
 
-Segunda posible agrupación (asociación derecha):
+**Segunda posible agrupación (asociación derecha):**
 ```
 NP → NP 'da' NP
     ├── NP → N (“mutum”)
