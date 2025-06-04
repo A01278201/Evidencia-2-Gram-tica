@@ -102,6 +102,14 @@ N      → 'mutum'  | 'yara' | 'zomo' | 'kare'
 V      → 'suna'   | 'hauji'| 'ganowa'
 ```
 
+- NP → N NP_Aux
+    - Comienza siempre por un sustantivo (N).
+    - NP_Aux se encarga de concatenar cero o más ocurrencias de “da N”.
+- `NP_Aux` → 'da' N NP_Aux | ε
+
+
+
+
 
 
 
