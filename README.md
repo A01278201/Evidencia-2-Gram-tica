@@ -18,3 +18,16 @@ El objetivo es reconocer oraciones como:
 ```
 
 Este subconjunto captura la sintaxis esencial del hausa—sin cláusulas subordinadas, sin morfología verbal compleja—lo cual lo hace ideal para demostrar análisis LL(1) y construir una gramática libre de contexto que sirva de base a un parser predictivo.
+
+# Modelos
+*Gramática inicial (ambigua)*
+
+```
+S   → NP VP
+NP  → NP 'da' NP
+NP  → N
+VP  → V NP
+
+N   → 'mutum' | 'yara' | 'zomo' | 'kare'
+V   → 'suna'  | 'hauji' | 'ganowa'
+```
