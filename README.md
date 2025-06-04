@@ -364,5 +364,102 @@ Resultado esperado
 
 - Cada oración de prueba genera exactamente 1 árbol. Ya no hay ambigüedad ni problema de recursividad izquierda.
 
+# **4. Script test_suite.py**
+
+Finalmente, crearemos un script que automatice la prueba de aceptación/rechazo para la gramática G₂. Este archivo recorre una lista de oraciones “válidas” (que deben generar 1 árbol) y “inválidas” (que deben generar 0 árboles) y muestra el resultado.
+```
+# test_suite.py
+
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+
+# Cargamos la gramática G₂ (versión final LL(1))
+grammar = CFG.fromstring(r"""
+  S         -> NP VP
+
+  NP        -> N NP_Aux
+  NP_Aux    -> 'da' N NP_Aux
+  NP_Aux    ->
+
+  VP        -> V VP_Tail
+  VP_Tail   -> NP
+  VP_Tail   ->
+
+  N         -> 'mutum'  | 'yara' | 'zomo' | 'kare'
+  V         -> 'suna'   | 'hauji'| 'ganowa'
+  P         -> 'da'
+""")
+
+parser = ChartParser(grammar)
+
+# 5.A. Oraciones VÁLIDAS (deben generar 1 solo árbol)
+valid_sentences = [
+    "mutum da yara suna".split(),               # (el hombre y los niños corren)
+    "zomo da kare hauji".split(),                # (el conejo y el perro saltan)
+    "mutum ganowa zomo".split(),                 # (el hombre encontró al conejo)
+    "yara suna".split(),                         # (los niños corren)
+    "mutum da zomo da kare ganowa yara".split(), # (coordinación larga)
+]
+
+# 5.B. Oraciones INVÁLIDAS (deben generar 0 árboles)
+invalid_sentences = [
+    [],                                          # cadena vacía
+    "mutum".split(),                             # solo NP sin verbo
+    "ganowa yara".split(),                       # verbo + sustantivo, pero sin sujeto
+    "da zomo suna".split(),                      # comienza con 'da' (no hay Det)
+    "zomo da suna".split(),                      # falta NP después de 'da'
+    "mutum da zomo da".split(),                  # termina en 'da'
+    "mutum zomo suna".split(),                   # no hay 'da' entre sustantivos
+    "mutum da caballo suna".split(),              # 'caballo' no está en N
+    "mutum canta yara".split()                   # 'canta' no está en V
+]
+
+print("=== Test Suite para G₂ (Hausa) ===\n")
+
+# Probar oraciones válidas
+print("→ ORACIONES VÁLIDAS:")
+for tokens in valid_sentences:
+    sentence = " ".join(tokens)
+    trees = list(parser.parse(tokens)) if tokens else []
+    status = "OK" if len(trees) == 1 else f"ERROR ({len(trees)} árboles)"
+    print(f"“{sentence}” → {status}")
+    if status == "OK":
+        trees[0].pretty_print()
+    print()
+
+# Probar oraciones inválidas
+print("\n→ ORACIONES INVÁLIDAS:")
+for tokens in invalid_sentences:
+    sentence = " ".join(tokens)
+    trees = list(parser.parse(tokens)) if tokens else []
+    status = "OK (rechazada)" if len(trees) == 0 else f"ERROR ({len(trees)} árboles)"
+    print(f"“{sentence}” → {status}")
+    print()
+```
+
+Explicación de la lógica:
+
+1. Cargamos la misma gramática G₂ que en el script anterior.
+   
+2. Definimos dos listas de oraciones:
+   - valid_sentences contiene cadenas tokenizadas que deben reconocerse (llenar el árbol de análisis).
+   - invalid_sentences contiene ejemplos que no deben ser reconocidos.
+    
+3. Para cada oración en ambas listas, llamamos a parser.parse(tokens).
+ 
+    - Si len(trees) == 1, marcamos “OK” para válidas.
+
+    - Si len(trees) == 0, marcamos “OK (rechazada)” para inválidas.
+
+    - En otros casos (más de 1 árbol para una cadena válida, o ≥1 árbol para una inválida), marcamos “ERROR”.
+
+4. Para las oraciones válidas, mostramos el árbol con pretty_print() para visualizar la estructura.
+
+
+
+
+
+
 
 
