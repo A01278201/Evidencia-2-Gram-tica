@@ -188,7 +188,51 @@ Para validar las gramáticas definidas y experimentar con árboles de análisis,
 
 Además, habrá un cuarto script llamado test_suite.py que se encargará de ejecutar pruebas automáticas sobre la gramática final G₂, para verificar en cada caso si la oración es aceptada (genera exactamente 1 árbol) o rechazada (genera 0 árboles).
 
-1. Requerimientos previos
+*1. Script hausa_grammar_ambiguous.py*
+
+Este archivo carga la gramática G₀ (ambigua y recursiva a la izquierda) y muestra cuántos árboles produce para cada oración de prueba.
+```
+# hasua_grammar_ambiguous.py
+
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+
+# Definición de la gramática G₀ (ambigua, left‐recursive)
+grammar_ambiguous = CFG.fromstring(r"""
+  S    -> NP VP
+  NP   -> NP 'da' NP
+  NP   -> N
+  VP   -> V NP
+  N    -> 'mutum' | 'yara' | 'zomo' | 'kare'
+  V    -> 'suna'  | 'hauji' | 'ganowa'
+""")
+
+# Creamos un parser basado en ChartParser
+parser_ambiguous = ChartParser(grammar_ambiguous)
+
+# Oraciones de prueba
+test_sentences = [
+    "mutum da zomo da kare ganowa yara".split(),  # Ejemplo ambiguo: debería producir 2 árboles
+    "mutum da yara suna".split(),                # No ambiguo: debería producir 1 árbol
+    "zomo ganowa yara".split()                   # Oración simple: 1 árbol
+]
+
+print("=== Prueba con gramática AMBIGUA (G₀) ===\n")
+
+for tokens in test_sentences:
+    sentence = " ".join(tokens)
+    print(f"Oración: \"{sentence}\"")
+    trees = list(parser_ambiguous.parse(tokens))
+    print(f"  → # de árboles generados: {len(trees)}")
+    # Mostrar cada árbol (si hay)
+    for idx, tree in enumerate(trees, start=1):
+        print(f"  Árbol {idx}:")
+        tree.pretty_print()
+    print()
+```
+Cómo funciona
+
 
 
 
