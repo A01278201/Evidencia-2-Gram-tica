@@ -111,7 +111,19 @@ V      → 'suna'   | 'hauji'| 'ganowa'
     - Si no, produce ε (termina la coordinación).
 
 Con estas reglas, por ejemplo, para la cadena: mutum da zomo da kare ganowa yara
+la única derivación para el sintagma nominal del sujeto (“mutum da zomo da kare”) es: 
 
+```
+NP
+├─ N (“mutum”)
+└─ NP_Aux
+   ├─ 'da'
+   ├─ N (“zomo”)
+   └─ NP_Aux
+      ├─ 'da'
+      ├─ N (“kare”)
+      └─ NP_Aux → ε
+```
 
 
 
