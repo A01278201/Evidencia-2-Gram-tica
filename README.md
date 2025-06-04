@@ -134,10 +134,10 @@ ya que NP_Aux se expande siempre consumiendo “da N” hasta llegar a ε.
 Aunque en G₁ ya no existe la forma directa NP → NP 'da' NP, todavía podría haber problemas de parsing predictivo si alguna producción insistiera en “LHS → LHS …”. En nuestra gramática G₁:
 
 - NP → N NP_Aux
-  No es recursiva a la izquierda, porque el lado derecho comienza con un terminal (N).
+  - No es recursiva a la izquierda, porque el lado derecho comienza con un terminal (N).
 
 - NP_Aux → 'da' N NP_Aux | ε
-  Tampoco es recursiva a la izquierda, pues la alternativa que llama a sí misma ('da' N NP_Aux) comienza con el terminal 'da'.
+  - Tampoco es recursiva a la izquierda, pues la alternativa que llama a sí misma ('da' N NP_Aux) comienza con el terminal 'da'.
 
 En este sentido, G₁ ya está libre de recursividad izquierda en las producciones de NP y NP_Aux. Sin embargo, para garantizar un análisis LL(1) sin ambigüedad ni conflictos, sólo queda ajustar la producción de VP para evitar que un parser tenga que decidir entre “VP → V NP” y (en otro escenario) “VP → V” —por si quisiéramos permitir el verbo intransitivo. Para no complicar el ejemplo con verbos intransitivos, definiremos en un paso final la gramática G₂, que ya cumple todas las condiciones LL(1).
 
