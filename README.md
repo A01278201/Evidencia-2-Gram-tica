@@ -20,7 +20,7 @@ El objetivo es reconocer oraciones como:
 Este subconjunto captura la sintaxis esencial del hausa—sin cláusulas subordinadas, sin morfología verbal compleja—lo cual lo hace ideal para demostrar análisis LL(1) y construir una gramática libre de contexto que sirva de base a un parser predictivo.
 
 # Modelos
-*Gramática inicial (ambigua)*
+**Gramática inicial (ambigua)**
 
 ```
 S   → NP VP
@@ -41,3 +41,6 @@ V   → 'suna'  | 'hauji' | 'ganowa'
 - VP → V NP exige un verbo seguido de un objeto (NP).
 
 - Los símbolos terminales N y V abarcan los sustantivos y verbos básicos del subconjunto de hausa.
+
+**Problema: Ambigüedad**
+Esta gramática es ambigua porque, para oraciones coordinadas con más de dos nombres, no queda claro cómo agrupar la serie de “da”s. Por ejemplo:
