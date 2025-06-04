@@ -141,6 +141,33 @@ Aunque en G₁ ya no existe la forma directa NP → NP 'da' NP, todavía podría
 
 En este sentido, G₁ ya está libre de recursividad izquierda en las producciones de NP y NP_Aux. Sin embargo, para garantizar un análisis LL(1) sin ambigüedad ni conflictos, sólo queda ajustar la producción de VP para evitar que un parser tenga que decidir entre “VP → V NP” y (en otro escenario) “VP → V” —por si quisiéramos permitir el verbo intransitivo. Para no complicar el ejemplo con verbos intransitivos, definiremos en un paso final la gramática G₂, que ya cumple todas las condiciones LL(1).
 
+# Gramática final (G₂) — sin left recursion y totalmente LL(1)
+
+Incorporaremos un no terminal intermedio VP_Tail de modo que:
+```
+VP → V VP_Tail
+VP_Tail → NP | ε
+```
+
+De esta manera, al leer el verbo, el parser sabe que siempre debe mirar el siguiente token para decidir si continúa con un objeto (NP) o termina el sintagma verbal.
+
+La gramática G₂ queda como:
+```
+S        → NP VP
+
+NP       → N NP_Aux
+NP_Aux   → 'da' N NP_Aux
+NP_Aux   → ε
+
+VP       → V VP_Tail
+VP_Tail  → NP
+VP_Tail  → ε
+
+N        → 'mutum'  | 'yara' | 'zomo' | 'kare'
+V        → 'suna'   | 'hauji'| 'ganowa'
+```
+
+
 
 
 
