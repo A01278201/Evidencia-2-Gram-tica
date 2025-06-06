@@ -180,7 +180,7 @@ En esta caso trabajamos con dos versiones del código en Python:
 
 1. Versión 1 – Parser con la gramática G₀ (ambigua, left‐recursive), que mostrará cuándo genera múltiples árboles.
 
-2. Versión 2 – Parser LL(1) manual con la gramática G₂ (sin ambigüedad ni left‐recursion), que garantiza análisis en tiempo O(n).
+2. Versión 2 – Parser LL(1) con la gramática G₂ (sin ambigüedad ni left‐recursion), que garantiza análisis en tiempo O(n).
 
 Ambas usan exclusivamente la librería estándar de Python; sólo en la versión 1 empleamos NLTK para visualizar todos los árboles.
 
@@ -244,5 +244,48 @@ for tokens in test_sentences:
 3. **Salida**
     - Se imprime cuántos árboles hay y se muestra cada uno en formato ASCII.
     - Permite ver de forma gráfica la ambigüedad.
+
+
+**Versión 2:  (G₂, LL(1))**
+```
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+
+# —————————————————————————————————————————————————————————————
+# Gramática G₂ (sin ambigüedad ni recursividad izquierda) en NLTK
+# —————————————————————————————————————————————————————————————
+hausa_grammar_unambiguous = CFG.fromstring(r"""
+S         -> NP VP
+
+NP        -> N NP_Aux
+NP_Aux    -> 'da' N NP_Aux
+NP_Aux    ->
+
+VP        -> V VP_Tail
+VP_Tail   -> NP
+VP_Tail   ->
+
+N         -> 'mutum' | 'yara' | 'zomo' | 'kare'
+V         -> 'suna'  | 'hauji' | 'ganowa'
+""")
+
+parser = ChartParser(hausa_grammar_unambiguous)
+
+test_sentences = [
+    "mutum da zomo da kare ganowa yara",
+    "mutum da yara suna",
+    "zomo ganowa yara",
+]
+
+for sentence in test_sentences:
+    tokens = sentence.split()
+    trees = list(parser.parse(tokens))
+    print(f"'{sentence}' genera {len(trees)} árbol(es):")
+    for tree in trees:
+        tree.pretty_print()
+    print()
+```
+
 
 
