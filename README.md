@@ -238,3 +238,18 @@ Sin recursividad izquierda:
 # **Complejidad**
 
 Un parser LL(1) procesa una cadena de longitud n en una sola pasada, haciendo por cada token una única consulta a la tabla de parsing y empujando/desapilando un número constante de símbolos. Por ello su coste temporal es O(n), y la pila de símbolos puede crecer a lo sumo O(n), resultando en una complejidad espacial también O(n).
+
+
+# Referencias
+
+Aho, A. V., Sethi, R., & Ullman, J. D. (1986). Compilers: Principles, Techniques, and Tools (1.ª ed.). Addison-Wesley.
+
+Hopcroft, J. E., & Ullman, J. D. (1979). Introduction to Automata Theory, Languages, and Computation. Addison-Wesley.
+
+Sipser, M. (2006). Introduction to the Theory of Computation (2.ª ed.). Thomson Course Technology.
+
+Jurafsky, D., & Martin, J. H. (2020). Speech and Language Processing (3.ª ed.). Prentice Hall.
+
+Pereira, F. C. N., & Shieber, S. M. (1987). Prolog and Natural-Language Analysis. CSLI Publications.
+
+Bird, S., Klein, E., & Loper, E. (2009). Natural Language Processing with Python. O’Reilly Media.
