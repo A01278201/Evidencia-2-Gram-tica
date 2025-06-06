@@ -176,44 +176,45 @@ Con esta forma:
 
 # Implementación
 
-Para validar las gramáticas definidas y experimentar con árboles de análisis, utilizaremos Python junto con la biblioteca NLTK (Natural Language Toolkit). A continuación se muestran tres scripts que corresponden a cada una de las gramáticas vistas:
+En esta caso trabajamos con dos versiones del código en Python:
 
-- G₀ (ambigua / left‐recursive) → hausa_grammar_ambiguous.py
+1. Versión 1 – Parser con la gramática G₀ (ambigua, left‐recursive), que mostrará cuándo genera múltiples árboles.
 
-- G₁ (sin ambigüedad, pero con recursividad derecha en NP_Aux) → hausa_grammar_unambiguous.py
+2. Versión 2 – Parser LL(1) manual con la gramática G₂ (sin ambigüedad ni left‐recursion), que garantiza análisis en tiempo O(n).
 
-- G₂ (sin ambigüedad ni recursividad izquierda, compatible LL(1)) → hausa_grammar_no_left_rec.py
+Ambas usan exclusivamente la librería estándar de Python; sólo en la versión 1 empleamos NLTK para visualizar todos los árboles.
 
-Además, habrá un cuarto script llamado test_suite.py que se encargará de ejecutar pruebas automáticas sobre la gramática final G₂, para verificar en cada caso si la oración es aceptada (genera exactamente 1 árbol) o rechazada (genera 0 árboles).
 
-# **1. Script hausa_grammar_ambiguous.py**
 
-Este archivo carga la gramática G₀ (ambigua y recursiva a la izquierda) y muestra cuántos árboles produce para cada oración de prueba.
+**Versión 1: (G₀, ambigua)**
+
 ```
-# hasua_grammar_ambiguous.py
-
 import nltk
 from nltk import CFG
 from nltk.parse import ChartParser
 
-# Definición de la gramática G₀ (ambigua, left‐recursive)
+# ————————————————————————————————————
+# 1. Definir la gramática G₀ (ambigua, left-recursive)
+# ————————————————————————————————————
 grammar_ambiguous = CFG.fromstring(r"""
   S    -> NP VP
   NP   -> NP 'da' NP
   NP   -> N
   VP   -> V NP
+
   N    -> 'mutum' | 'yara' | 'zomo' | 'kare'
-  V    -> 'suna'  | 'hauji' | 'ganowa'
+  V    -> 'suna'   | 'hauji'  | 'ganowa'
 """)
 
-# Creamos un parser basado en ChartParser
 parser_ambiguous = ChartParser(grammar_ambiguous)
 
-# Oraciones de prueba
+# ————————————————————————————————————
+# 2. Oraciones de prueba
+# ————————————————————————————————————
 test_sentences = [
-    "mutum da zomo da kare ganowa yara".split(),  # Ejemplo ambiguo: debería producir 2 árboles
-    "mutum da yara suna".split(),                # No ambiguo: debería producir 1 árbol
-    "zomo ganowa yara".split()                   # Oración simple: 1 árbol
+    "mutum da zomo da kare ganowa yara".split(),  # Ejemplo ambiguo (debería generar 2 árboles)
+    "mutum da yara suna".split(),                # No ambiguo (1 árbol)
+    "zomo ganowa yara".split()                   # Oración simple (1 árbol)
 ]
 
 print("=== Prueba con gramática AMBIGUA (G₀) ===\n")
@@ -223,147 +224,11 @@ for tokens in test_sentences:
     print(f"Oración: \"{sentence}\"")
     trees = list(parser_ambiguous.parse(tokens))
     print(f"  → # de árboles generados: {len(trees)}")
-    # Mostrar cada árbol (si hay)
     for idx, tree in enumerate(trees, start=1):
         print(f"  Árbol {idx}:")
         tree.pretty_print()
     print()
 ```
-Cómo funciona
 
- 1- Definimos grammar_ambiguous usando la sintaxis CFG.fromstring de NLTK, copiando exactamente las producciones de G₀.
+**¿Cómo funciona?**
 
- 2- Creamos un ChartParser con esa gramática.
-
- 3- Para cada oración en test_sentences (ya tokenizada con .split()), generamos la lista de árboles con parser_ambiguous.parse(tokens).
-
- 4- Imprimimos cuántos árboles se generaron y, si hay alguno, lo mostramos con pretty_print().
-
-
-Resultado esperado:
-
-- Para "mutum da zomo da kare ganowa yara" → # de árboles generados: 2 (dos agrupaciones posibles).
-
-- Para "mutum da yara suna" → # de árboles generados: 1.
-
-- Para "zomo ganowa yara" → # de árboles generados: 1.
-
-
-# **2. Script hausa_grammar_unambiguous.py**
-
-A continuación se define la gramática G₁ (sin ambigüedad en la coordinación, pero aún con recursividad en NP_Aux). Este script muestra que la misma oración ambigua en G₀, al parsearse con G₁, sólo produce 1 árbol.
-```
-# hasua_grammar_unambiguous.py
-
-import nltk
-from nltk import CFG
-from nltk.parse import ChartParser
-
-# Definición de la gramática G₁ (sin ambigüedad, NP_Aux → 'da' N NP_Aux | ε)
-grammar_unambiguous = CFG.fromstring(r"""
-  S       -> NP VP
-  NP      -> N NP_Aux
-  NP_Aux  -> 'da' N NP_Aux
-  NP_Aux  ->
-  VP      -> V NP
-  N       -> 'mutum' | 'yara' | 'zomo' | 'kare'
-  V       -> 'suna'  | 'hauji' | 'ganowa'
-""")
-
-parser_unambiguous = ChartParser(grammar_unambiguous)
-
-# Mismas oraciones para comprobar ambigüedad
-test_sentences = [
-    "mutum da zomo da kare ganowa yara".split(),  # Ahora debería producir 1 único árbol
-    "mutum da yara suna".split(),
-    "zomo ganowa yara".split()
-]
-
-print("=== Prueba con gramática NO AMBIGUA (G₁) ===\n")
-
-for tokens in test_sentences:
-    sentence = " ".join(tokens)
-    print(f"Oración: \"{sentence}\"")
-    trees = list(parser_unambiguous.parse(tokens))
-    print(f"  → # de árboles generados: {len(trees)}")
-    for tree in trees:
-        tree.pretty_print()
-    print()
-```
-
-Diferencia clave
-- La regla NP → NP 'da' NP (ambigua) se ha reemplazado por
-```
-NP      → N NP_Aux
-NP_Aux  → 'da' N NP_Aux
-NP_Aux  → ε
-```
-lo que fuerza la asociación hacia la derecha y elimina toda ambigüedad de agrupación.
-
-Resultado esperado:
-- "mutum da zomo da kare ganowa yara" → # de árboles generados: 1 (único árbol).
-
-- Las demás oraciones también generan 1 árbol.
-
-
-# **3. Script hausa_grammar_no_left_rec.py**
-
-Para cerrar la implementación, presentamos G₂ (sin ambigüedad ni recursividad izquierda, completamente LL(1)). Aquí se introduce el no terminal intermedio VP_Tail para el sintagma verbal.
-```
-# hasua_grammar_no_left_rec.py
-
-import nltk
-from nltk import CFG
-from nltk.parse import ChartParser
-
-# Definición de la gramática G₂ (sin recursividad izquierda, LL(1) friendly)
-grammar_no_left_rec = CFG.fromstring(r"""
-  S         -> NP VP
-
-  NP        -> N NP_Aux
-  NP_Aux    -> 'da' N NP_Aux
-  NP_Aux    ->
-
-  VP        -> V VP_Tail
-  VP_Tail   -> NP
-  VP_Tail   ->
-
-  N         -> 'mutum'  | 'yara' | 'zomo' | 'kare'
-  V         -> 'suna'   | 'hauji'| 'ganowa'
-""")
-
-parser_no_left_rec = ChartParser(grammar_no_left_rec)
-
-# Oraciones de prueba (igual que antes)
-test_sentences = [
-    "mutum da zomo da kare ganowa yara".split(),
-    "mutum da yara suna".split(),
-    "zomo ganowa yara".split()
-]
-
-print("=== Prueba con gramática SIN LEFT-RECURSION (G₂) ===\n")
-
-for tokens in test_sentences:
-    sentence = " ".join(tokens)
-    print(f"Oración: \"{sentence}\"")
-    trees = list(parser_no_left_rec.parse(tokens))
-    print(f"  → # de árboles generados: {len(trees)}")
-    for tree in trees:
-        tree.pretty_print()
-    print()
-```
-Notas
-
-- Ahora VP → V VP_Tail y VP_Tail → NP | ε evitan cualquier ambigüedad de “¿VP → V NP” o “VP → V?”. Con VP_Tail el parser consulta el siguiente token para decidir entre expandir NP o terminar el VP con ε.
-
-- Todas las producciones están libres de recursividad izquierda (los lados derechos empiezan con terminales).
-
-Resultado esperado
-
-- Cada oración de prueba genera exactamente 1 árbol. Ya no hay ambigüedad ni problema de recursividad izquierda.
-
-# Complejidad
-
-**Complejidad temporal**
-
-En el peor de los casos para una oración de longitud n (es decir, n tokens), el `chart‐parser` debe considerar todos los sub‐spans posibles y todas las particiones de cada sub‐span. Por lo tanto, Parsing con `ChartParser` → **O(n³)** en tiempo en el peor de los escenarios, donde n es la cantidad de tokens de la oración.
