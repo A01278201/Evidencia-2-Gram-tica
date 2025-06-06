@@ -156,12 +156,10 @@ La gramática G₂ queda como:
 S        → NP VP
 
 NP       → N NP_Aux
-NP_Aux   → 'da' N NP_Aux
-NP_Aux   → ε
+NP_Aux   → 'da' N NP_Aux   |  ε
 
 VP       → V VP_Tail
-VP_Tail  → NP
-VP_Tail  → ε
+VP_Tail  → NP   |  ε
 
 N        → 'mutum'  | 'yara' | 'zomo' | 'kare'
 V        → 'suna'   | 'hauji'| 'ganowa'
