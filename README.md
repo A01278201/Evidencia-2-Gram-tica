@@ -176,77 +176,9 @@ Con esta forma:
 
 # Implementación
 
-En esta caso trabajamos con dos versiones del código en Python:
-
-1. Versión 1 – Parser con la gramática G₀ (ambigua, left‐recursive), que mostrará cuándo genera múltiples árboles.
-
-2. Versión 2 – Parser LL(1) con la gramática G₂ (sin ambigüedad ni left‐recursion), que garantiza análisis en tiempo O(n).
-
-Ambas usan exclusivamente la librería estándar de Python; sólo en la versión 1 empleamos NLTK para visualizar todos los árboles.
+En esta caso trabajamos con una version del código en Python: Parser LL(1) con la gramática G₂ (sin ambigüedad ni left‐recursion), que garantiza análisis en tiempo O(n).
 
 
-
-**Versión 1: (G₀, ambigua)**
-
-```
-import nltk
-from nltk import CFG
-from nltk.parse import ChartParser
-
-# ————————————————————————————————————
-# 1. Definir la gramática G₀ (ambigua, left-recursive)
-# ————————————————————————————————————
-grammar_ambiguous = CFG.fromstring(r"""
-  S    -> NP VP
-  NP   -> NP 'da' NP
-  NP   -> N
-  VP   -> V NP
-
-  N    -> 'mutum' | 'yara' | 'zomo' | 'kare'
-  V    -> 'suna'   | 'hauji'  | 'ganowa'
-""")
-
-parser_ambiguous = ChartParser(grammar_ambiguous)
-
-# ————————————————————————————————————
-# 2. Oraciones de prueba
-# ————————————————————————————————————
-test_sentences = [
-    "mutum da zomo da kare ganowa yara".split(),  # Ejemplo ambiguo (debería generar 2 árboles)
-    "mutum da yara suna".split(),                # No ambiguo (1 árbol)
-    "zomo ganowa yara".split()                   # Oración simple (1 árbol)
-]
-
-print("=== Prueba con gramática AMBIGUA (G₀) ===\n")
-
-for tokens in test_sentences:
-    sentence = " ".join(tokens)
-    print(f"Oración: \"{sentence}\"")
-    trees = list(parser_ambiguous.parse(tokens))
-    print(f"  → # de árboles generados: {len(trees)}")
-    for idx, tree in enumerate(trees, start=1):
-        print(f"  Árbol {idx}:")
-        tree.pretty_print()
-    print()
-```
-
-**¿Cómo funciona?**
-
-1. **Gramática G₀**
-    - NP → NP 'da' NP introduce recursión izquierda y ambigüedad.
-    - VP → V NP exige un objeto tras el verbo.
-
-2. **Parser**
-    - Usamos ChartParser de NLTK, que construye un “chart” y descubre todas las posibles derivaciones.
-    - En particular, para la oración "mutum da zomo da kare ganowa yara", generará 2 árboles distintos (agrupación izquierda vs. agrupación derecha).
-
-
-3. **Salida**
-    - Se imprime cuántos árboles hay y se muestra cada uno en formato ASCII.
-    - Permite ver de forma gráfica la ambigüedad.
-
-
-**Versión 2:  (G₂, LL(1))**
 ```
 import nltk
 from nltk import CFG
