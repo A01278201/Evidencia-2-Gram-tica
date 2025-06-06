@@ -363,3 +363,9 @@ Notas
 Resultado esperado
 
 - Cada oración de prueba genera exactamente 1 árbol. Ya no hay ambigüedad ni problema de recursividad izquierda.
+
+# Complejidad
+
+**Complejidad temporal**
+
+En el peor de los casos para una oración de longitud n (es decir, n tokens), el `chart‐parser` debe considerar todos los sub‐spans posibles y todas las particiones de cada sub‐span. Por lo tanto, Parsing con `ChartParser` → **O(n³)** en tiempo en el peor de los escenarios, donde n es la cantidad de tokens de la oración.
