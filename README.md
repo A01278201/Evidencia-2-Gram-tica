@@ -233,3 +233,7 @@ Sin recursividad izquierda:
 
 - Esto permite un parsing más sencillo (ni siquiera se necesitan transformaciones; ChartParser no se atasca en bucles infinitos).
 
+
+**Complejidad**
+
+Un parser LL(1) procesa una cadena de longitud n en una sola pasada, haciendo por cada token una única consulta a la tabla de parsing y empujando/desapilando un número constante de símbolos. Por ello su coste temporal es O(n), y la pila de símbolos puede crecer a lo sumo O(n), resultando en una complejidad espacial también O(n).
