@@ -219,5 +219,17 @@ for sentence in test_sentences:
     print()
 ```
 
+**¿Por qué NO hay ambigüedad ni left‐recursion?**
 
+Sin ambigüedad:
+
+- En G₀, la regla NP → NP 'da' NP permitía agrupar “mutum da zomo da kare” de dos maneras distintas.
+
+- Ahora, con NP → N NP_Aux y NP_Aux → 'da' N NP_Aux | ε, toda secuencia "N da N da N …" se asocia a la derecha automáticamente, así no hay dos árboles distintos para la misma cadena.
+
+Sin recursividad izquierda:
+
+- Ninguna producción arranca con su propio no terminal. Por ejemplo, antes NP → NP 'da' NP era left‐recursive, pero ahora NP → N NP_Aux arranca con un terminal (N).
+
+- Esto permite un parsing más sencillo (ni siquiera se necesitan transformaciones; ChartParser no se atasca en bucles infinitos).
 
