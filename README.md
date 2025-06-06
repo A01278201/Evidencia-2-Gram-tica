@@ -232,3 +232,17 @@ for tokens in test_sentences:
 
 **¿Cómo funciona?**
 
+1. **Gramática G₀**
+    - NP → NP 'da' NP introduce recursión izquierda y ambigüedad.
+    - VP → V NP exige un objeto tras el verbo.
+
+2. **Parser**
+    - Usamos ChartParser de NLTK, que construye un “chart” y descubre todas las posibles derivaciones.
+    - En particular, para la oración "mutum da zomo da kare ganowa yara", generará 2 árboles distintos (agrupación izquierda vs. agrupación derecha).
+
+
+3. **Salida**
+    - Se imprime cuántos árboles hay y se muestra cada uno en formato ASCII.
+    - Permite ver de forma gráfica la ambigüedad.
+
+
