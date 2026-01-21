@@ -1,0 +1,9 @@
+S      → NP VP
+NP     → N NP_Aux
+NP_Aux → 'da' N NP_Aux
+NP_Aux → ε
+
+VP     → V NP
+
+N      → 'mutum'  | 'yara' | 'zomo' | 'kare'
+V      → 'suna'   | 'hauji'| 'ganowa'
